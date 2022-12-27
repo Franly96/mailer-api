@@ -1,12 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { MailController } from './mail/mail.controller';
-import { MailService } from './mail/mail.service';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import { MailModule } from './mail/mail.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController, MailController],
-  providers: [AppService, MailService],
+  imports: [
+    ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
+    MongooseModule.forRoot('mongodb://root:passw0rd@localhost:27017', {
+      dbName: 'mailer',
+    }),
+    MailModule,
+  ],
 })
 export class AppModule {}
