@@ -3,8 +3,7 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class Mail extends Document {
-  @Prop({ required: true })
-  @Prop([String])
+  @Prop({ type: [String], required: true })
   addresses: string[];
 
   @Prop({ required: true })
@@ -15,6 +14,18 @@ export class Mail extends Document {
 
   @Prop({ required: true })
   subject: string;
+
+  @Prop({ default: null, required: false })
+  delete_at: Date;
+
+  @Prop({ default: Date.now() })
+  created_at: Date;
 }
 
-export const MailSchema = SchemaFactory.createForClass(Mail);
+export const MailSchema = SchemaFactory.createForClass(Mail).pre(
+  'find',
+  function (next) {
+    this.where({ delete_at: null });
+    next();
+  },
+);
