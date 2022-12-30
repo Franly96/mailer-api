@@ -23,7 +23,10 @@ export class MailService implements MailServiceInterface {
     if (deleted) {
       query = { delete_at: { $ne: null } };
     }
-    return await this.mailModel.find({ ...query }).exec();
+    return await this.mailModel
+      .find({ ...query })
+      .sort({ created_at: -1 })
+      .exec();
   }
 
   async getById(id: string): Promise<Mail | null> {
@@ -38,6 +41,7 @@ export class MailService implements MailServiceInterface {
   async delete(deleteMailDto: DeleteMailDto): Promise<boolean> {
     const deleted = await this.mailModel
       .findOneAndUpdate({ _id: deleteMailDto.id }, { delete_at: Date.now() })
+      .sort({ delete_at: -1 })
       .exec();
     return !!!deleted;
   }
