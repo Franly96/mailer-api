@@ -6,7 +6,7 @@ import { MailModule } from './mail/mail.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
-    MongooseModule.forRoot('mongodb://root:passw0rd@localhost:27017', {
+    MongooseModule.forRoot(process.env.DATABASE_HOST_URI || '', {
       dbName: 'mailer',
     }),
     MailModule,
