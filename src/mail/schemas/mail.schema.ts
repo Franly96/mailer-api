@@ -22,10 +22,4 @@ export class Mail extends Document {
   created_at: Date;
 }
 
-export const MailSchema = SchemaFactory.createForClass(Mail).pre(
-  'find',
-  function (next) {
-    //this.where({ delete_at: null });
-    next();
-  },
-);
+export const MailSchema = SchemaFactory.createForClass(Mail);

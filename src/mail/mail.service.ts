@@ -14,15 +14,18 @@ export class MailService implements MailServiceInterface {
   async getAll(params: GetMailParams): Promise<Mail[]> {
     const { inbox, from, deleted } = params;
     let query = null;
-    if (inbox) {
-      query = { addresses: inbox };
-    }
-    if (from) {
-      query = { from: from };
-    }
     if (deleted) {
       query = { delete_at: { $ne: null } };
+    } else {
+      query = { delete_at: null };
     }
+    if (inbox) {
+      query = { ...query, addresses: inbox };
+    }
+    if (from) {
+      query = { ...query, from: from };
+    }
+
     return await this.mailModel
       .find({ ...query })
       .sort({ created_at: -1 })
