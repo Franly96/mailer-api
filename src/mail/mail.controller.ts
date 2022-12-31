@@ -41,7 +41,6 @@ export class MailController {
 
   @Post()
   async Create(@Body() createMailDto: CreateMailDto): Promise<Mail> {
-    console.log('Create Mail');
     return await this.mailService.create(createMailDto);
   }
 

@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { MailEventsModule } from './mail-events/mail-events.module';
 import { MailModule } from './mail/mail.module';
 
 @Module({
@@ -10,6 +11,7 @@ import { MailModule } from './mail/mail.module';
       dbName: 'mailer',
     }),
     MailModule,
+    MailEventsModule,
   ],
 })
 export class AppModule {}
